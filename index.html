@@ -14,6 +14,7 @@
 
     body {
       display: flex;
+      flex-direction: column;
       justify-content: center;
       align-items: center;
       min-height: 100vh;
@@ -21,13 +22,22 @@
       padding: 20px;
     }
 
+    .app-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      max-width: 340px;
+    }
+
     .calculator {
-      width: 340px;
+      width: 100%;
       background: #1c1c1c;
       border-radius: 25px;
       padding: 25px;
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
       overflow: hidden;
+      margin-bottom: 20px;
     }
 
     .display-container {
@@ -198,75 +208,87 @@
       border-radius: 10px;
     }
 
+    /* Estilos para el contenedor del anuncio */
+    .ad-container {
+      width: 100%;
+      max-width: 340px;
+      margin-top: 15px;
+      text-align: center;
+    }
+
+    .ad-container > div {
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
     @media (max-width: 400px) {
       .calculator {
-        width: 100%;
-        max-width: 340px;
         padding: 20px;
       }
 
       button {
         height: 60px;
       }
+      
+      .app-container {
+        max-width: 320px;
+      }
     }
   </style>
 
 </head>
 <body>
-<!--<script async="async" data-cfasync="false" src="https://pl28342525.effectivegatecpm.com/e6e1b61252ac1416f176b554dfeb73c2/invoke.js"></script>-->
-
-<!--<script async="async" data-cfasync="false" src="https://pl28342525.effectivegatecpm.com/e6e1b61252ac1416f176b554dfeb73c2/invoke.js"></script>
-<div id="container-e6e1b61252ac1416f176b554dfeb73c2"></div>
-<div id="container-e6e1b61252ac1416f176b554dfeb73c2"></div>-->
-  <div class="calculator">
-    <div class="display-container">
-      <div class="expression" id="expression"></div>
-      <div class="display" id="display">0</div>
-    </div>
-
-    <div class="buttons">
-      <button class="gray-btn" data-action="clear">AC</button>
-      <button class="gray-btn" data-action="backspace">⌫</button>
-      <button class="gray-btn" data-action="percentage">%</button>
-      <button class="operator" data-operator="÷">÷</button>
-
-      <button class="dark-btn" data-number="7">7</button>
-      <button class="dark-btn" data-number="8">8</button>
-      <button class="dark-btn" data-number="9">9</button>
-      <button class="operator" data-operator="×">×</button>
-
-      <button class="dark-btn" data-number="4">4</button>
-      <button class="dark-btn" data-number="5">5</button>
-      <button class="dark-btn" data-number="6">6</button>
-      <button class="operator" data-operator="−">−</button>
-
-      <button class="dark-btn" data-number="1">1</button>
-      <button class="dark-btn" data-number="2">2</button>
-      <button class="dark-btn" data-number="3">3</button>
-      <button class="operator" data-operator="+">+</button>
-
-      <button class="dark-btn wide-btn" data-number="0">0</button>
-      <button class="dark-btn" data-decimal>.</button>
-      <button class="equal" data-equals>=</button>
-    </div>
-
-    <div class="history-container">
-      <div class="history-title">
-        <span>Historial</span>
-        <button class="clear-history" id="clearHistory">Limpiar</button>
+  <div class="app-container">
+    <div class="calculator">
+      <div class="display-container">
+        <div class="expression" id="expression"></div>
+        <div class="display" id="display">0</div>
       </div>
-      <ul class="history-list" id="historyList">
-        <!-- Historial se agregará aquí -->
-      </ul>
+
+      <div class="buttons">
+        <button class="gray-btn" data-action="clear">AC</button>
+        <button class="gray-btn" data-action="backspace">⌫</button>
+        <button class="gray-btn" data-action="percentage">%</button>
+        <button class="operator" data-operator="÷">÷</button>
+
+        <button class="dark-btn" data-number="7">7</button>
+        <button class="dark-btn" data-number="8">8</button>
+        <button class="dark-btn" data-number="9">9</button>
+        <button class="operator" data-operator="×">×</button>
+
+        <button class="dark-btn" data-number="4">4</button>
+        <button class="dark-btn" data-number="5">5</button>
+        <button class="dark-btn" data-number="6">6</button>
+        <button class="operator" data-operator="−">−</button>
+
+        <button class="dark-btn" data-number="1">1</button>
+        <button class="dark-btn" data-number="2">2</button>
+        <button class="dark-btn" data-number="3">3</button>
+        <button class="operator" data-operator="+">+</button>
+
+        <button class="dark-btn wide-btn" data-number="0">0</button>
+        <button class="dark-btn" data-decimal>.</button>
+        <button class="equal" data-equals>=</button>
+      </div>
+
+      <div class="history-container">
+        <div class="history-title">
+          <span>Historial</span>
+          <button class="clear-history" id="clearHistory">Limpiar</button>
+        </div>
+        <ul class="history-list" id="historyList">
+          <!-- Historial se agregará aquí -->
+        </ul>
+      </div>
+    </div>
+
+    <!-- Contenedor para el anuncio -->
+    <div class="ad-container">
+      <script async="async" data-cfasync="false" src="https://pl28342525.effectivegatecpm.com/e6e1b61252ac1416f176b554dfeb73c2/invoke.js"></script>
+      <div id="container-e6e1b61252ac1416f176b554dfeb73c2"></div>
     </div>
   </div>
-
-
-<script async="async" data-cfasync="false" src="https://pl28342525.effectivegatecpm.com/e6e1b61252ac1416f176b554dfeb73c2/invoke.js"></script>
-<div id="container-e6e1b61252ac1416f176b554dfeb73c2"></div>
-
-<!--<script async="async" data-cfasync="false" src="https://pl28342525.effectivegatecpm.com/e6e1b61252ac1416f176b554dfeb73c2/invoke.js"></script>
-<div id="container-e6e1b61252ac1416f176b554dfeb73c2"></div>-->
 
   <script>
     const display = document.getElementById("display");
