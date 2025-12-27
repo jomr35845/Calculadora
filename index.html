@@ -204,7 +204,7 @@
         max-width: 340px;
         padding: 20px;
       }
-      
+
       button {
         height: 60px;
       }
@@ -256,14 +256,12 @@
     </div>
   </div>
 
-
-
   <script>
     const display = document.getElementById("display");
     const expressionDisplay = document.getElementById("expression");
     const historyList = document.getElementById("historyList");
     const clearHistoryBtn = document.getElementById("clearHistory");
-    
+
     // Estado de la calculadora
     let calculator = {
       currentValue: "0",
@@ -273,26 +271,26 @@
       shouldResetScreen: false,
       lastResult: ""
     };
-    
-    // Historial de cálculos
-    let calculationHistory = JSON.parse(localStorage.getItem('calcHistory')) || [];
-    
+
+    // Historial de cálculos (solo en memoria)
+    let calculationHistory = [];
+
     // Mostrar historial al cargar
     updateHistoryDisplay();
-    
+
     // Función para actualizar la pantalla
     function updateDisplay() {
       display.textContent = calculator.currentValue;
       expressionDisplay.textContent = calculator.expression;
     }
-    
+
     // Función para agregar número
     function inputNumber(number) {
       if (calculator.shouldResetScreen) {
         calculator.currentValue = "";
         calculator.shouldResetScreen = false;
       }
-      
+
       if (calculator.currentValue === "0" && number !== ".") {
         calculator.currentValue = number;
       } else {
@@ -302,40 +300,40 @@
         }
         calculator.currentValue += number;
       }
-      
+
       updateDisplay();
     }
-    
+
     // Función para manejar operadores
     function inputOperator(op) {
       // Si ya hay una operación pendiente, calcular primero
       if (calculator.operator && calculator.previousValue && !calculator.shouldResetScreen) {
         calculate();
       }
-      
+
       // Actualizar expresión
       calculator.expression = calculator.currentValue + " " + op + " ";
-      
+
       // Guardar valores y operador
       calculator.previousValue = calculator.currentValue;
       calculator.operator = op;
       calculator.shouldResetScreen = true;
-      
+
       // Actualizar pantalla
       updateDisplay();
     }
-    
+
     // Función para realizar el cálculo
     function calculate() {
       if (!calculator.operator || calculator.shouldResetScreen) return;
-      
+
       const prev = parseFloat(calculator.previousValue);
       const curr = parseFloat(calculator.currentValue);
       let result;
-      
+
       // Completar expresión
       calculator.expression += calculator.currentValue + " =";
-      
+
       // Realizar cálculo según operador
       switch (calculator.operator) {
         case "+":
@@ -357,28 +355,28 @@
         default:
           return;
       }
-      
+
       // Redondear resultado si es decimal
       if (typeof result === "number" && !Number.isInteger(result)) {
         result = parseFloat(result.toFixed(10));
       }
-      
+
       // Guardar resultado
       calculator.lastResult = result.toString();
       calculator.currentValue = result.toString();
-      
-      // Guardar en historial
+
+      // Guardar en historial (solo en memoria)
       addToHistory(calculator.expression, result);
-      
+
       // Resetear estado
       calculator.expression = "";
       calculator.previousValue = "";
       calculator.operator = "";
       calculator.shouldResetScreen = true;
-      
+
       updateDisplay();
     }
-    
+
     // Función para cambiar signo
     function toggleSign() {
       if (calculator.currentValue !== "0" && calculator.currentValue !== "Error") {
@@ -386,7 +384,7 @@
         updateDisplay();
       }
     }
-    
+
     // Función para porcentaje
     function percentage() {
       if (calculator.currentValue !== "0" && calculator.currentValue !== "Error") {
@@ -394,7 +392,7 @@
         updateDisplay();
       }
     }
-    
+
     // Función para borrar todo
     function clearAll() {
       calculator.currentValue = "0";
@@ -404,7 +402,7 @@
       calculator.shouldResetScreen = false;
       updateDisplay();
     }
-    
+
     // Función para borrar el último carácter
     function backspace() {
       if (calculator.currentValue.length > 1) {
@@ -414,40 +412,37 @@
       }
       updateDisplay();
     }
-    
-    // Función para agregar al historial
+
+    // Función para agregar al historial (solo en memoria)
     function addToHistory(expression, result) {
       if (result === "Error") return;
-      
+
       const historyItem = {
         expression: expression,
         result: result,
         timestamp: new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})
       };
-      
+
       calculationHistory.unshift(historyItem);
-      
+
       // Limitar historial a 10 elementos
       if (calculationHistory.length > 10) {
         calculationHistory.pop();
       }
-      
-      // Guardar en localStorage
-      localStorage.setItem('calcHistory', JSON.stringify(calculationHistory));
-      
+
       // Actualizar visualización
       updateHistoryDisplay();
     }
-    
+
     // Función para actualizar el historial en pantalla
     function updateHistoryDisplay() {
       historyList.innerHTML = "";
-      
+
       if (calculationHistory.length === 0) {
         historyList.innerHTML = '<li style="color: #666; text-align: center;">No hay cálculos recientes</li>';
         return;
       }
-      
+
       calculationHistory.forEach(item => {
         const li = document.createElement("li");
         li.innerHTML = `
@@ -458,18 +453,17 @@
         historyList.appendChild(li);
       });
     }
-    
+
     // Función para limpiar historial
     function clearHistory() {
       calculationHistory = [];
-      localStorage.removeItem('calcHistory');
       updateHistoryDisplay();
     }
-    
+
     // Manejo de eventos de teclado
     document.addEventListener('keydown', (e) => {
       const key = e.key;
-      
+
       if ((key >= '0' && key <= '9') || key === '.') {
         inputNumber(key);
       } else if (key === '+') {
@@ -491,52 +485,50 @@
         percentage();
       }
     });
-    
+
     // Event listeners para botones
     document.querySelectorAll('[data-number]').forEach(button => {
       button.addEventListener('click', () => {
         inputNumber(button.getAttribute('data-number'));
       });
     });
-    
+
     document.querySelectorAll('[data-operator]').forEach(button => {
       button.addEventListener('click', () => {
         inputOperator(button.getAttribute('data-operator'));
       });
     });
-    
+
     document.querySelector('[data-decimal]').addEventListener('click', () => {
       inputNumber('.');
     });
-    
+
     document.querySelector('[data-equals]').addEventListener('click', calculate);
-    
+
     document.querySelector('[data-action="clear"]').addEventListener('click', clearAll);
-    
+
     document.querySelector('[data-action="backspace"]').addEventListener('click', backspace);
-    
+
     document.querySelector('[data-action="percentage"]').addEventListener('click', percentage);
-    
+
     // Botón para cambiar signo (añadido dinámicamente)
     const signButton = document.createElement('button');
     signButton.className = 'dark-btn';
     signButton.textContent = '±';
     signButton.addEventListener('click', toggleSign);
-    
+
     // Insertar el botón de signo antes del botón 0
     const zeroButton = document.querySelector('[data-number="0"]');
     zeroButton.parentNode.insertBefore(signButton, zeroButton);
-    
+
     // Cambiar el botón 0 para que ocupe solo una columna
     zeroButton.classList.remove('wide-btn');
-    
+
     // Event listener para limpiar historial
     clearHistoryBtn.addEventListener('click', clearHistory);
-    
+
     // Inicializar pantalla
     updateDisplay();
   </script>
-<!--<script src="https://pl28342161.effectivegatecpm.com/92/df/88/92df883d8d7ea2ed93aa46e41dbbd0ab.js"></script>-->
-<script src="https://pl28342161.effectivegatecpm.com/92/df/88/92df883d8d7ea2ed93aa46e41dbbd0ab.js"></script>
 </body>
-  </html>
+</html>
